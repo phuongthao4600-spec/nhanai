@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thỏ Nhân Ái – Nhật ký 3-1-1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="avatar-wrap">
+        <div class="avatar speaking" id="bunnyAvatar">
+          <img src="tho-nhan-ai.gif" alt="Thỏ Nhân Ái" />
+        </div>
+        <div class="avatar-label">Cô Thỏ Nhân Ái</div>
+      </div>
+      <div class="title-box">
+        <div class="title">Thỏ Nhân Ái</div>
+        <div class="subtitle">
+          Lắng nghe phiếu 3–1–1 và gửi lời khen cho con 💛
+        </div>
+        <div class="tag">
+          3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương
+        </div>
+      </div>
+    </header>
+
+    <section class="character-speech">
+      <span class="speech-icon">💬</span>
+      <div id="currentSpeechText">
+        Hôm nay cô Thỏ sẽ giúp con xem con đã đủ 3 lời cảm ơn, 1 việc tốt
+        và 1 lời yêu thương chưa nhé. Con viết xong rồi bấm “Gửi cho Thỏ”
+        nha. 🐰
+      </div>
+    </section>
+
+    <section class="form-fields">
+      <div class="field">
+        <label for="studentName">Tên học sinh</label>
+        <input id="studentName" placeholder="Ví dụ: Nguyễn Gia Hân..." />
+      </div>
+
+      <div class="field">
+        <label for="className">Lớp</label>
+        <small>Con chọn đúng lớp của mình nhé.</small>
+        <select id="className">
+          <option value="">-- Chọn lớp --</option>
+          <option>5/1</option><option>5/2</option><option>5/3</option>
+          <option>5/4</option><option>5/5</option><option>5/6</option>
+          <option>5/7</option><option>5/8</option><option>5/9</option>
+          <option>5/10</option><option>5/11</option><option>5/12</option>
+          <option>5/13</option><option>5/14</option><option>5/15</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="thanksInput">3 lời cảm ơn</label>
+        <small>Con có thể cảm ơn ba mẹ, ông bà, thầy cô, bạn bè, hàng xóm...</small>
+        <textarea id="thanksInput"
+          placeholder="Ví dụ: Con cảm ơn mẹ vì..., con cảm ơn bạn vì..., con cảm ơn cô vì..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="deedInput">1 việc tốt con đã làm</label>
+        <small>Việc nhỏ cũng được: giúp đỡ, chia sẻ, nhường nhịn, dọn dẹp, an ủi bạn...</small>
+        <textarea id="deedInput"
+          placeholder="Ví dụ: Con đã giúp bạn..., con đã nhường..., con đã làm..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="loveInput">1 lời yêu thương</label>
+        <small>Con có thể gửi lời yêu thương tới người mà con trân trọng nhất tuần này.</small>
+        <textarea id="loveInput"
+          placeholder="Ví dụ: Con muốn gửi lời yêu thương tới... vì..."></textarea>
+      </div>
+    </section>
+
+    <section class="chat" id="chatBox">
+      <div class="msg bot">
+        <div class="bubble">
+          <strong>Thỏ Nhân Ái:</strong><br />
+          Chào con! Con hãy viết đủ 3 phần ở trên rồi bấm “Gửi cho Thỏ”. Cô sẽ
+          giúp con nhận ra điểm mạnh và nhắc con hoàn thiện phiếu Nhân Ái nhé. 🌟
+        </div>
+      </div>
+    </section>
+
+    <div class="hint">
+      Gợi ý từ khóa: cảm ơn, giúp đỡ, chia sẻ, xin lỗi, thương, yêu, an ủi, lắng nghe...
+    </div>
+
+    <div class="buttons">
+      <button id="sendBtn">Gửi cho Thỏ</button>
+      <button id="clearBtn" class="secondary">Xóa nội dung</button>
+    </div>
+
+    <div class="form-note">
+      Sau khi Thỏ phản hồi, dữ liệu sẽ được lưu về cô qua Google Sheet để tổng kết
+      tháng, học kì. 🌈
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
