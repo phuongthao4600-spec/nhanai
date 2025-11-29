@@ -1,214 +1,298 @@
-// ====== CẤU HÌNH ======
-const SHEET_WEB_APP_URL = "PASTE_LINK_WEB_APP_VÀO_ĐÂY"; // lát nữa dán
-
-// ====== LẤY PHẦN TỬ TRÊN GIAO DIỆN ======
-const chatBox = document.getElementById("chatBox");
-const nameInput = document.getElementById("studentName");
-const classInput = document.getElementById("className");
-const thanksInput = document.getElementById("thanksInput");
-const deedInput = document.getElementById("deedInput");
-const loveInput = document.getElementById("loveInput");
-const sendBtn = document.getElementById("sendBtn");
-const clearBtn = document.getElementById("clearBtn");
-const bunnyAvatar = document.getElementById("bunnyAvatar");
-const currentSpeechText = document.getElementById("currentSpeechText");
-
-// ====== GIỌNG CÔ GIÁO ẤM ÁP ======
-const synth = window.speechSynthesis;
-let teacherVoice = null;
-
-function pickWarmVietnameseVoice() {
-  if (!synth) return null;
-  const voices = synth.getVoices();
-  const viVoices = voices.filter((v) =>
-    v.lang.toLowerCase().startsWith("vi")
-  );
-  const femaleLike = viVoices.find((v) =>
-    /female|nữ|nu|woman|girl/i.test(v.name)
-  );
-  return femaleLike || viVoices[0] || voices[0] || null;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
-function speakAsTeacher(text) {
-  // Cho thỏ nhún dù có giọng hay không
-  currentSpeechText.textContent = text;
-  bunnyAvatar.classList.add("speaking");
-  setTimeout(() => bunnyAvatar.classList.remove("speaking"), 2600);
+body {
+  background: linear-gradient(135deg, #ffe6f2, #fff8fb);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 32px 12px;
+  color: #333;
+}
 
-  if (!synth || !text) return;
+.app {
+  background: #ffffff;
+  width: 100%;
+  max-width: 1100px;
+  border-radius: 24px;
+  box-shadow: 0 18px 45px rgba(255, 105, 180, 0.18);
+  padding: 24px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-  if (!teacherVoice) {
-    teacherVoice = pickWarmVietnameseVoice();
-    if (!teacherVoice) {
-      synth.onvoiceschanged = () => {
-        teacherVoice = pickWarmVietnameseVoice();
-      };
-    }
+/* HEADER */
+
+.app-header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.bunny-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #ffe6f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(255, 105, 180, 0.25);
+}
+
+.bunny-avatar.big {
+  width: 120px;
+  height: 120px;
+}
+
+.bunny-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: bunnyIdle 2.2s ease-in-out infinite;
+}
+
+@keyframes bunnyIdle {
+  0%,
+  100% {
+    transform: translateY(0);
   }
-
-  const utter = new SpeechSynthesisUtterance(text);
-  if (teacherVoice) utter.voice = teacherVoice;
-  utter.lang = "vi-VN";
-  utter.rate = 0.95;
-  utter.pitch = 0.95;
-
-  synth.cancel();
-  synth.speak(utter);
-}
-
-// ====== CHAT UI ======
-function scrollToBottom() {
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-function addMessage(html, who = "bot") {
-  const msg = document.createElement("div");
-  msg.className = "msg " + (who === "me" ? "me" : "bot");
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
-  bubble.innerHTML = html;
-  msg.appendChild(bubble);
-  chatBox.appendChild(msg);
-  scrollToBottom();
-}
-
-// ====== TẠO PHẢN HỒI ======
-const compliments = [
-  "Con đã làm rất tốt. Cô cảm nhận được trái tim nhân ái và biết ơn của con.",
-  "Cô rất tự hào vì con vừa biết nói lời cảm ơn, vừa làm việc tốt, vừa gửi yêu thương.",
-  "Tuần này con xứng đáng nhận Giấy khen Thỏ Nhân Ái vì đã sống rất đẹp trong lớp và ở nhà."
-];
-
-const encouragements = [
-  "Không sao đâu con, ai cũng có những tuần khởi động. Tuần sau mình cùng cố gắng hơn nhé.",
-  "Cô rất trân trọng nỗ lực của con. Chỉ cần con bổ sung thêm một chút là phiếu Nhân Ái sẽ trọn vẹn rồi.",
-  "Cô tin con làm được. Mỗi tuần con hoàn thiện thêm một ít là đã tiến bộ rất nhiều rồi đó."
-];
-
-function makeBotReply(name, className, thanks, deed, love) {
-  const hasThanks = thanks.trim().length > 10;
-  const hasDeed = deed.trim().length > 10;
-  const hasLove = love.trim().length > 10;
-
-  const parts = [];
-  const labelName = name || "con";
-  const labelClass = className ? ` lớp ${className}` : "";
-
-  parts.push(
-    `Chào ${labelName}${labelClass}! Cô Thỏ đã đọc xong phiếu Nhân Ái 3–1–1 của con rồi.`
-  );
-
-  if (hasThanks && hasDeed && hasLove) {
-    const cmt = compliments[Math.floor(Math.random() * compliments.length)];
-    parts.push(
-      "Con đã hoàn thành đủ 3 phần: 3 lời cảm ơn, 1 việc tốt và 1 lời yêu thương. Điều đó cho thấy con rất biết ơn, biết giúp đỡ và biết yêu thương người khác. 💛"
-    );
-    parts.push(cmt);
-    parts.push(
-      "Con hãy giữ thói quen đẹp này trong những tuần tiếp theo nhé. Cô tin con sẽ truyền cảm hứng cho nhiều bạn khác trong lớp. 🌟"
-    );
-  } else {
-    if (!hasThanks && !hasDeed && !hasLove) {
-      parts.push(
-        "Tuần này con chưa ghi rõ lời cảm ơn, việc tốt và lời yêu thương. Không sao đâu, đây là bước khởi động mà. 🌱"
-      );
-    } else {
-      parts.push(
-        "Con đã cố gắng viết phiếu Nhân Ái, cô rất trân trọng điều đó. Tuy nhiên, để phiếu trọn vẹn hơn, con cần hoàn thành thêm một vài phần nữa nhé."
-      );
-    }
-
-    const missing = [];
-    if (!hasThanks) missing.push("3 lời cảm ơn");
-    if (!hasDeed) missing.push("1 việc tốt");
-    if (!hasLove) missing.push("1 lời yêu thương");
-
-    if (missing.length > 0) {
-      parts.push(
-        `Phần con còn thiếu là: <strong>${missing.join(
-          ", "
-        )}</strong>. Con thử nhớ lại xem trong tuần, con đã được ai giúp đỡ, con đã làm việc tốt gì hoặc con muốn nói lời yêu thương với ai nhé.`
-      );
-    }
-
-    if (hasThanks) {
-      parts.push(
-        "Những lời cảm ơn con viết cho thấy con biết trân trọng những người xung quanh, đó là điều rất đáng quý. 💐"
-      );
-    }
-    if (hasDeed) {
-      parts.push(
-        "Việc tốt con làm, dù nhỏ thôi, cũng đã làm người khác vui hơn. Mỗi việc tốt là một hạt giống Nhân Ái được gieo xuống. 🌈"
-      );
-    }
-    if (hasLove) {
-      parts.push(
-        "Lời yêu thương con gửi đi giúp trái tim của người nhận ấm áp hơn. Đó là món quà rất đẹp mà không tốn tiền đâu. 💖"
-      );
-    }
-
-    const dv = encouragements[Math.floor(Math.random() * encouragements.length)];
-    parts.push(dv);
-    parts.push(
-      "Tuần sau, con thử hoàn thành đầy đủ cả 3 phần để nhận Giấy khen Thỏ Nhân Ái nhé. Cô luôn tin là con làm được. Cố lên nào! 🐰✨"
-    );
-  }
-
-  const replyText = parts.join(" ");
-  const replyHtml = "<strong>Thỏ Nhân Ái:</strong><br>" + replyText;
-  addMessage(replyHtml, "bot");
-  speakAsTeacher(replyText);
-}
-
-// ====== GỬI DỮ LIỆU LÊN GOOGLE SHEET ======
-async function sendToSheet(payload) {
-  if (!SHEET_WEB_APP_URL || SHEET_WEB_APP_URL.includes("PASTE_LINK")) return;
-  try {
-    await fetch(SHEET_WEB_APP_URL, {
-      method: "POST",
-      body: JSON.stringify(payload),
-    });
-  } catch (e) {
-    console.error("Không gửi được dữ liệu lên Sheet:", e);
+  50% {
+    transform: translateY(-4px);
   }
 }
 
-// ====== XỬ LÝ NÚT ======
-function handleSend() {
-  const name = (nameInput.value || "").trim();
-  const className = (classInput.value || "").trim();
-  const thanks = (thanksInput.value || "").trim();
-  const deed = (deedInput.value || "").trim();
-  const love = (loveInput.value || "").trim();
-
-  if (!thanks && !deed && !love) return;
-
-  const summary =
-    "3 lời cảm ơn:\n" +
-    (thanks || "(chưa viết)") +
-    "\n\n1 việc tốt:\n" +
-    (deed || "(chưa viết)") +
-    "\n\n1 lời yêu thương:\n" +
-    (love || "(chưa viết)");
-
-  addMessage(summary, "me");
-  makeBotReply(name, className, thanks, deed, love);
-
-  const payload = {
-    name,
-    className,
-    thank: thanks,
-    good: deed,
-    love: love,
-  };
-  sendToSheet(payload);
+.app-header h1 {
+  font-size: 26px;
+  color: #f2468f;
+  margin-bottom: 4px;
 }
 
-function handleClear() {
-  thanksInput.value = "";
-  deedInput.value = "";
-  loveInput.value = "";
+.app-header p {
+  font-size: 15px;
+  color: #555;
 }
 
-sendBtn.addEventListener("click", handleSend);
-clearBtn.addEventListener("click", handleClear);
+.sub-badge {
+  display: inline-block;
+  margin-top: 6px;
+  background: #ffe4f0;
+  color: #c2185b;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+/* HINT */
+
+.hint-bubble {
+  margin-top: 4px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: #fff6fb;
+  border: 1px dashed #f48fb1;
+  font-size: 14px;
+}
+
+/* MAIN LAYOUT */
+
+.app-main {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 20px;
+  margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+  .app-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* FORM */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+  border-radius: 10px;
+  border: 1px solid #e0c4d8;
+  padding: 8px 10px;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  resize: vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #f06292;
+  box-shadow: 0 0 0 2px rgba(240, 98, 146, 0.2);
+}
+
+.section-title {
+  margin-top: 8px;
+  font-size: 18px;
+  color: #d81b60;
+}
+
+.section-desc {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 8px;
+}
+
+.field-group {
+  margin-top: 6px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: #fff7fb;
+  border: 1px solid #f8bbd0;
+}
+
+.field-group h3 {
+  font-size: 15px;
+  color: #ad1457;
+  margin-bottom: 6px;
+}
+
+.field.small textarea {
+  font-size: 13px;
+}
+
+.helper-text {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #777;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+button {
+  border-radius: 999px;
+  padding: 8px 14px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+button.primary {
+  background: linear-gradient(135deg, #ff80ab, #f06292);
+  color: white;
+  box-shadow: 0 8px 18px rgba(240, 98, 146, 0.35);
+}
+
+button.primary:hover {
+  filter: brightness(1.03);
+}
+
+button.secondary {
+  background: #fce4ec;
+  color: #ad1457;
+}
+
+.status-msg {
+  min-height: 18px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #777;
+}
+
+/* CHAT PANEL */
+
+.chat-panel {
+  background: #fff7fb;
+  border-radius: 18px;
+  padding: 16px 14px;
+  border: 1px solid #f8bbd0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-bunny {
+  display: flex;
+  justify-content: center;
+}
+
+.chat-bubble {
+  background: white;
+  border-radius: 16px;
+  padding: 10px 12px;
+  font-size: 14px;
+  box-shadow: 0 10px 24px rgba(233, 30, 99, 0.12);
+  position: relative;
+}
+
+.chat-bubble::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 28px;
+  border-width: 0 10px 10px 10px;
+  border-style: solid;
+  border-color: transparent transparent white transparent;
+}
+
+.chat-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #d81b60;
+}
+
+/* Bunny speaking animation */
+
+.bunny-speaking img {
+  animation: bunnyTalking 0.35s ease-in-out infinite;
+}
+
+@keyframes bunnyTalking {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.02);
+  }
+}
+
+/* FOOTER */
+
+.app-footer {
+  margin-top: 6px;
+  border-top: 1px dashed #f8bbd0;
+  padding-top: 8px;
+  text-align: center;
+}
+
+.app-footer small {
+  font-size: 11px;
+  color: #888;
+}
