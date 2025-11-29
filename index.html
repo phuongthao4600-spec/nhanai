@@ -2,103 +2,145 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Thỏ Nhân Ái – Nhật ký 3-1-1</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thỏ Nhân Ái – Phiếu 3–1–1</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="app">
-    <header class="header">
-      <div class="avatar-wrap">
-        <div class="avatar speaking" id="bunnyAvatar">
-          <img src="tho-nhan-ai.gif" alt="Thỏ Nhân Ái" />
-        </div>
-        <div class="avatar-label">Cô Thỏ Nhân Ái</div>
+    <header class="app-header">
+      <div class="bunny-avatar">
+        <img src="tho-nhan-ai.gif" alt="Thỏ Nhân Ái" />
       </div>
-      <div class="title-box">
-        <div class="title">Thỏ Nhân Ái</div>
-        <div class="subtitle">
-          Lắng nghe phiếu 3–1–1 và gửi lời khen cho con 💛
-        </div>
-        <div class="tag">
-          3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương
-        </div>
+      <div class="title-block">
+        <h1>Thỏ Nhân Ái</h1>
+        <p>Lắng nghe phiếu 3–1–1 và gửi lời khen cho con 🧡</p>
+        <span class="sub-badge">3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương</span>
       </div>
     </header>
 
-    <section class="character-speech">
-      <span class="speech-icon">💬</span>
-      <div id="currentSpeechText">
-        Hôm nay cô Thỏ sẽ giúp con xem con đã đủ 3 lời cảm ơn, 1 việc tốt
-        và 1 lời yêu thương chưa nhé. Con viết xong rồi bấm “Gửi cho Thỏ”
-        nha. 🐰
-      </div>
+    <section class="hint-bubble">
+      🐰 Thỏ đang ở đây để lắng nghe câu chuyện Nhân Ái của con.
+      Con viết xong phiếu rồi bấm <strong>“Gửi cho Thỏ”</strong> nha!
     </section>
 
-    <section class="form-fields">
-      <div class="field">
-        <label for="studentName">Tên học sinh</label>
-        <input id="studentName" placeholder="Ví dụ: Nguyễn Gia Hân..." />
-      </div>
-
-      <div class="field">
-        <label for="className">Lớp</label>
-        <small>Con chọn đúng lớp của mình nhé.</small>
-        <select id="className">
-          <option value="">-- Chọn lớp --</option>
-          <option>5/1</option><option>5/2</option><option>5/3</option>
-          <option>5/4</option><option>5/5</option><option>5/6</option>
-          <option>5/7</option><option>5/8</option><option>5/9</option>
-          <option>5/10</option><option>5/11</option><option>5/12</option>
-          <option>5/13</option><option>5/14</option><option>5/15</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="thanksInput">3 lời cảm ơn</label>
-        <small>Con có thể cảm ơn ba mẹ, ông bà, thầy cô, bạn bè, hàng xóm...</small>
-        <textarea id="thanksInput"
-          placeholder="Ví dụ: Con cảm ơn mẹ vì..., con cảm ơn bạn vì..., con cảm ơn cô vì..."></textarea>
-      </div>
-
-      <div class="field">
-        <label for="deedInput">1 việc tốt con đã làm</label>
-        <small>Việc nhỏ cũng được: giúp đỡ, chia sẻ, nhường nhịn, dọn dẹp, an ủi bạn...</small>
-        <textarea id="deedInput"
-          placeholder="Ví dụ: Con đã giúp bạn..., con đã nhường..., con đã làm..."></textarea>
-      </div>
-
-      <div class="field">
-        <label for="loveInput">1 lời yêu thương</label>
-        <small>Con có thể gửi lời yêu thương tới người mà con trân trọng nhất tuần này.</small>
-        <textarea id="loveInput"
-          placeholder="Ví dụ: Con muốn gửi lời yêu thương tới... vì..."></textarea>
-      </div>
-    </section>
-
-    <section class="chat" id="chatBox">
-      <div class="msg bot">
-        <div class="bubble">
-          <strong>Thỏ Nhân Ái:</strong><br />
-          Chào con! Con hãy viết đủ 3 phần ở trên rồi bấm “Gửi cho Thỏ”. Cô sẽ
-          giúp con nhận ra điểm mạnh và nhắc con hoàn thiện phiếu Nhân Ái nhé. 🌟
+    <main class="app-main">
+      <form id="hanaiForm" autocomplete="off">
+        <div class="field">
+          <label for="studentName">Tên học sinh</label>
+          <input
+            type="text"
+            id="studentName"
+            placeholder="Ví dụ: Nguyễn Gia Hân..."
+            required
+          />
         </div>
-      </div>
-    </section>
 
-    <div class="hint">
-      Gợi ý từ khóa: cảm ơn, giúp đỡ, chia sẻ, xin lỗi, thương, yêu, an ủi, lắng nghe...
-    </div>
+        <div class="field">
+          <label for="studentClass">Lớp</label>
+          <select id="studentClass" required>
+            <option value="">-- Chọn lớp --</option>
+            <option value="5/1">5/1</option>
+            <option value="5/2">5/2</option>
+            <option value="5/3">5/3</option>
+            <option value="5/4">5/4</option>
+            <option value="5/5">5/5</option>
+            <option value="5/6">5/6</option>
+            <option value="5/7">5/7</option>
+            <option value="5/8">5/8</option>
+            <option value="5/9">5/9</option>
+            <option value="5/10">5/10</option>
+            <option value="5/11">5/11</option>
+            <option value="5/12">5/12</option>
+            <option value="5/13">5/13</option>
+            <option value="5/14">5/14</option>
+            <option value="5/15">5/15</option>
+          </select>
+        </div>
 
-    <div class="buttons">
-      <button id="sendBtn">Gửi cho Thỏ</button>
-      <button id="clearBtn" class="secondary">Xóa nội dung</button>
-    </div>
+        <h2 class="section-title">Phiếu Nhân Ái tuần này</h2>
+        <p class="section-desc">
+          Con hãy hoàn thành 3–1–1: <strong>3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương.</strong>
+        </p>
 
-    <div class="form-note">
-      Sau khi Thỏ phản hồi, dữ liệu sẽ được lưu về cô qua Google Sheet để tổng kết
-      tháng, học kì. 🌈
-    </div>
+        <div class="field-group">
+          <h3>🌼 Ba lời cảm ơn</h3>
+          <div class="field small">
+            <label for="thank1">Lời cảm ơn 1</label>
+            <textarea id="thank1" rows="2"
+              placeholder="Con cảm ơn ..."
+            ></textarea>
+          </div>
+          <div class="field small">
+            <label for="thank2">Lời cảm ơn 2</label>
+            <textarea id="thank2" rows="2"
+              placeholder="Con cảm ơn ..."
+            ></textarea>
+          </div>
+          <div class="field small">
+            <label for="thank3">Lời cảm ơn 3</label>
+            <textarea id="thank3" rows="2"
+              placeholder="Con cảm ơn ..."
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <h3>🌟 Một việc tốt</h3>
+          <div class="field small">
+            <label for="goodDeed">Con đã làm việc tốt gì?</label>
+            <textarea id="goodDeed" rows="2"
+              placeholder="Con đã giúp..."
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <h3>💗 Một lời yêu thương</h3>
+          <div class="field small">
+            <label for="loveMsg">Con muốn gửi lời yêu thương tới...</label>
+            <textarea id="loveMsg" rows="2"
+              placeholder="Con muốn nói lời yêu thương tới..."
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="helper-text">
+          Gợi ý từ khóa: cảm ơn, xin lỗi, giúp đỡ, chia sẻ, thương, yêu, an ủi, lắng nghe,...
+        </div>
+
+        <div class="buttons">
+          <button type="button" id="sendBtn" class="primary">
+            🐰 Gửi cho Thỏ
+          </button>
+          <button type="reset" class="secondary">
+            Xóa phiếu
+          </button>
+        </div>
+
+        <p id="statusMsg" class="status-msg"></p>
+      </form>
+
+      <section class="chat-panel">
+        <div class="chat-bunny">
+          <div class="bunny-avatar big">
+            <img src="tho-nhan-ai.gif" alt="Thỏ Nhân Ái" id="bunnyImg" />
+          </div>
+        </div>
+        <div class="chat-bubble" id="bunnyBubble">
+          <div class="chat-title">Thỏ Nhân Ái đang lắng nghe...</div>
+          <p id="bunnyText">
+            Con hãy viết xong phiếu 3–1–1 rồi bấm “Gửi cho Thỏ”.
+            Thỏ sẽ đọc và gửi lời khen, lời động viên cho con nha 🌷
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <small>
+        Phiếu này chỉ dùng để cô và Thỏ khen – động viên con. Không dùng để phê bình hay so sánh.
+      </small>
+    </footer>
   </div>
 
   <script src="script.js"></script>
