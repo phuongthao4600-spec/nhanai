@@ -1,298 +1,159 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+// 🔗 LINK WEB APP GOOGLE APPS SCRIPT CỦA CÔ
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbzMrST2vm04cQpr5uiPe17-RCoHdSRCIKQcMoEtHThg5leYzmvgSOhv7l3d9qGQpqAmxg/exec";
+
+const nameInput = document.getElementById("studentName");
+const classSelect = document.getElementById("studentClass");
+const thank1Input = document.getElementById("thank1");
+const thank2Input = document.getElementById("thank2");
+const thank3Input = document.getElementById("thank3");
+const goodDeedInput = document.getElementById("goodDeed");
+const loveMsgInput = document.getElementById("loveMsg");
+const sendBtn = document.getElementById("sendBtn");
+
+const bunnyBubble = document.getElementById("bunnyBubble");
+const bunnyText = document.getElementById("bunnyText");
+const bunnyImg = document.getElementById("bunnyImg");
+const statusMsg = document.getElementById("statusMsg");
+
+// ========== GIỌNG NÓI (Speech Synthesis) ==========
+
+let vnVoice = null;
+
+function findVietnameseVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  vnVoice =
+    voices.find((v) => v.lang.startsWith("vi")) ||
+    voices.find((v) => v.lang.startsWith("en")) ||
+    null;
 }
 
-body {
-  background: linear-gradient(135deg, #ffe6f2, #fff8fb);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding: 32px 12px;
-  color: #333;
+if ("speechSynthesis" in window) {
+  findVietnameseVoice();
+  window.speechSynthesis.onvoiceschanged = findVietnameseVoice;
 }
 
-.app {
-  background: #ffffff;
-  width: 100%;
-  max-width: 1100px;
-  border-radius: 24px;
-  box-shadow: 0 18px 45px rgba(255, 105, 180, 0.18);
-  padding: 24px 24px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+function speak(text) {
+  if (!("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
+
+  const utter = new SpeechSynthesisUtterance(text);
+  if (vnVoice) utter.voice = vnVoice;
+  utter.lang = vnVoice?.lang || "vi-VN";
+  utter.rate = 1;
+  utter.pitch = 1;
+
+  // Thỏ nhún nhảy khi nói
+  bunnyImg.parentElement.classList.add("bunny-speaking");
+  utter.onend = () => {
+    bunnyImg.parentElement.classList.remove("bunny-speaking");
+  };
+
+  window.speechSynthesis.speak(utter);
 }
 
-/* HEADER */
+// ========== TẠO PHẢN HỒI CỦA THỎ ==========
 
-.app-header {
-  display: flex;
-  gap: 16px;
-  align-items: center;
+function countFilled(arr) {
+  return arr.filter((s) => s && s.trim().length > 0).length;
 }
 
-.bunny-avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: #ffe6f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  box-shadow: 0 6px 16px rgba(255, 105, 180, 0.25);
-}
+function makeReply(name, thanksArr, goodDeed, loveMsg) {
+  const hasName = name && name.trim().length > 0;
+  const nThanks = countFilled(thanksArr);
+  const hasGoodDeed = !!(goodDeed && goodDeed.trim());
+  const hasLove = !!(loveMsg && loveMsg.trim());
 
-.bunny-avatar.big {
-  width: 120px;
-  height: 120px;
-}
+  const displayName = hasName ? name.trim() : "con";
 
-.bunny-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  animation: bunnyIdle 2.2s ease-in-out infinite;
-}
-
-@keyframes bunnyIdle {
-  0%,
-  100% {
-    transform: translateY(0);
+  // Đủ 3–1–1
+  if (nThanks >= 3 && hasGoodDeed && hasLove) {
+    return (
+      `Chào ${displayName}! 🐰 Thỏ đã đọc hết phiếu 3–1–1 của con rồi.\n` +
+      `Thỏ cảm nhận được rất nhiều tình yêu thương và lòng biết ơn trong từng câu chữ. 🌼\n` +
+      `Hôm nay con vừa biết nói lời cảm ơn, vừa biết làm việc tốt, lại còn gửi lời yêu thương nữa.\n` +
+      `Thỏ tặng con một “Giấy khen Nhân Ái” vì trái tim ấm áp của con nhé. Tiếp tục tỏa sáng như vậy nha! ✨`
+    );
   }
-  50% {
-    transform: translateY(-4px);
+
+  // Có nội dung nhưng chưa đủ
+  if (nThanks > 0 || hasGoodDeed || hasLove) {
+    return (
+      `Thỏ cảm ơn ${displayName} vì đã bắt đầu viết phiếu Nhân Ái rồi nha. 🌷\n` +
+      `Thỏ thấy con đã có ${nThanks} lời cảm ơn, ` +
+      `${hasGoodDeed ? "một việc tốt" : "chưa viết việc tốt nào"} ` +
+      `và ${hasLove ? "một lời yêu thương" : "chưa có lời yêu thương rõ ràng"}.\n` +
+      `Tuần sau con thử hoàn thành đủ 3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương,\n` +
+      `Thỏ tin con sẽ làm được và sẽ tặng con một phần thưởng Nhân Ái đặc biệt hơn nữa. Cố lên nhé! 💪`
+    );
   }
+
+  // Trống
+  return (
+    `Thỏ Nhân Ái chào ${displayName} 🐰\n` +
+    `Hình như phiếu tuần này của con vẫn còn trống đó.\n` +
+    `Con thử nhớ lại: ai đã giúp con, ai con muốn cảm ơn, con đã làm điều tốt gì,\n` +
+    `và con muốn gửi lời yêu thương cho ai… rồi viết vào nha. Thỏ luôn chờ để lắng nghe con 🌈`
+  );
 }
 
-.app-header h1 {
-  font-size: 26px;
-  color: #f2468f;
-  margin-bottom: 4px;
+// ========== GỬI DỮ LIỆU VỀ GOOGLE SHEET ==========
+
+function sendToSheet(payload) {
+  statusMsg.textContent = "Đang lưu phiếu Nhân Ái của con...";
+  statusMsg.style.color = "#888";
+
+  fetch(WEB_APP_URL, {
+    method: "POST",
+    mode: "no-cors", // vẫn gửi được, chỉ không đọc được phản hồi
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(() => {
+      statusMsg.textContent =
+        "Thỏ đã lưu phiếu Nhân Ái của con. Cô sẽ xem và khen con sau nhé 🌸";
+      statusMsg.style.color = "#2e7d32";
+    })
+    .catch(() => {
+      statusMsg.textContent =
+        "Thỏ hơi chậm mạng nên chưa chắc đã lưu được. Con báo cô giúp Thỏ nhé.";
+      statusMsg.style.color = "#c62828";
+    });
 }
 
-.app-header p {
-  font-size: 15px;
-  color: #555;
-}
+// ========== XỬ LÝ KHI BẤM “GỬI CHO THỎ” ==========
 
-.sub-badge {
-  display: inline-block;
-  margin-top: 6px;
-  background: #ffe4f0;
-  color: #c2185b;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-}
+sendBtn.addEventListener("click", () => {
+  const name = nameInput.value.trim();
+  const lop = classSelect.value.trim();
+  const camon1 = thank1Input.value.trim();
+  const camon2 = thank2Input.value.trim();
+  const camon3 = thank3Input.value.trim();
+  const viectot = goodDeedInput.value.trim();
+  const yeuthuong = loveMsgInput.value.trim();
 
-/* HINT */
-
-.hint-bubble {
-  margin-top: 4px;
-  padding: 10px 14px;
-  border-radius: 16px;
-  background: #fff6fb;
-  border: 1px dashed #f48fb1;
-  font-size: 14px;
-}
-
-/* MAIN LAYOUT */
-
-.app-main {
-  display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  gap: 20px;
-  margin-top: 8px;
-}
-
-@media (max-width: 900px) {
-  .app-main {
-    grid-template-columns: 1fr;
+  if (!name || !lop) {
+    bunnyText.textContent =
+      "Thỏ cần biết tên và lớp của con để khen cho đúng nhé. Con điền đủ tên và lớp rồi bấm lại giúp Thỏ nha 🐰";
+    speak(bunnyText.textContent);
+    return;
   }
-}
 
-/* FORM */
+  const reply = makeReply(name, [camon1, camon2, camon3], viectot, yeuthuong);
+  bunnyText.textContent = reply;
+  speak(reply);
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 10px;
-}
+  const payload = {
+    name,
+    lop,
+    camon1,
+    camon2,
+    camon3,
+    viectot,
+    yeuthuong,
+  };
 
-.field label {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.field input,
-.field select,
-.field textarea {
-  border-radius: 10px;
-  border: 1px solid #e0c4d8;
-  padding: 8px 10px;
-  font-size: 14px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  resize: vertical;
-}
-
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-  outline: none;
-  border-color: #f06292;
-  box-shadow: 0 0 0 2px rgba(240, 98, 146, 0.2);
-}
-
-.section-title {
-  margin-top: 8px;
-  font-size: 18px;
-  color: #d81b60;
-}
-
-.section-desc {
-  font-size: 13px;
-  color: #777;
-  margin-bottom: 8px;
-}
-
-.field-group {
-  margin-top: 6px;
-  padding: 10px 12px;
-  border-radius: 16px;
-  background: #fff7fb;
-  border: 1px solid #f8bbd0;
-}
-
-.field-group h3 {
-  font-size: 15px;
-  color: #ad1457;
-  margin-bottom: 6px;
-}
-
-.field.small textarea {
-  font-size: 13px;
-}
-
-.helper-text {
-  margin-top: 6px;
-  font-size: 12px;
-  color: #777;
-}
-
-.buttons {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-button {
-  border-radius: 999px;
-  padding: 8px 14px;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-button.primary {
-  background: linear-gradient(135deg, #ff80ab, #f06292);
-  color: white;
-  box-shadow: 0 8px 18px rgba(240, 98, 146, 0.35);
-}
-
-button.primary:hover {
-  filter: brightness(1.03);
-}
-
-button.secondary {
-  background: #fce4ec;
-  color: #ad1457;
-}
-
-.status-msg {
-  min-height: 18px;
-  margin-top: 4px;
-  font-size: 12px;
-  color: #777;
-}
-
-/* CHAT PANEL */
-
-.chat-panel {
-  background: #fff7fb;
-  border-radius: 18px;
-  padding: 16px 14px;
-  border: 1px solid #f8bbd0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.chat-bunny {
-  display: flex;
-  justify-content: center;
-}
-
-.chat-bubble {
-  background: white;
-  border-radius: 16px;
-  padding: 10px 12px;
-  font-size: 14px;
-  box-shadow: 0 10px 24px rgba(233, 30, 99, 0.12);
-  position: relative;
-}
-
-.chat-bubble::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: 28px;
-  border-width: 0 10px 10px 10px;
-  border-style: solid;
-  border-color: transparent transparent white transparent;
-}
-
-.chat-title {
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: #d81b60;
-}
-
-/* Bunny speaking animation */
-
-.bunny-speaking img {
-  animation: bunnyTalking 0.35s ease-in-out infinite;
-}
-
-@keyframes bunnyTalking {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-3px) scale(1.02);
-  }
-}
-
-/* FOOTER */
-
-.app-footer {
-  margin-top: 6px;
-  border-top: 1px dashed #f8bbd0;
-  padding-top: 8px;
-  text-align: center;
-}
-
-.app-footer small {
-  font-size: 11px;
-  color: #888;
-}
+  sendToSheet(payload);
+});
