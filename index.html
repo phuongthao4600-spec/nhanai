@@ -1,471 +1,137 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <title>Thỏ Nhân Ái – Phiếu 3–1–1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #ffe7f1, #ffeef9);
-      color: #333;
-    }
-    .page {
-      max-width: 1100px;
-      margin: 24px auto 40px;
-      background: #fff;
-      border-radius: 24px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-      padding: 24px 24px 32px;
-    }
-    .header {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .logo {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #fff, #ffd3e4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-      flex-shrink: 0;
-      overflow: hidden;
-    }
-    .logo img {
-      width: 80%;
-      height: 80%;
-      object-fit: contain;
-    }
-    .title-block h1 {
-      margin: 0;
-      font-size: 28px;
-      color: #e5467f;
-    }
-    .title-block p {
-      margin: 4px 0 6px;
-      font-size: 15px;
-    }
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: #ffe6f0;
-      color: #e5467f;
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .note {
-      margin-top: 12px;
-      padding: 10px 14px;
-      border-radius: 14px;
-      border: 1px dashed #f48fb1;
-      background: #fff8fb;
-      font-size: 14px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-      gap: 20px;
-      margin-top: 18px;
-    }
-
-    .field-label {
-      font-weight: 600;
-      margin-bottom: 4px;
-      font-size: 14px;
-    }
-    .field-hint {
-      font-size: 13px;
-      color: #777;
-      margin-bottom: 6px;
-    }
-    input[type="text"], select, textarea {
-      width: 100%;
-      padding: 9px 11px;
-      border-radius: 10px;
-      border: 1px solid #e0bcd0;
-      font-size: 14px;
-      outline: none;
-      transition: border 0.2s, box-shadow 0.2s;
-      font-family: inherit;
-      background: #fffdfd;
-    }
-    input[type="text"]:focus, select:focus, textarea:focus {
-      border-color: #e5467f;
-      box-shadow: 0 0 0 2px rgba(229,70,127,0.15);
-    }
-    textarea {
-      min-height: 60px;
-      resize: vertical;
-    }
-
-    .card {
-      border-radius: 18px;
-      padding: 14px 16px;
-      background: #fff6fb;
-      margin-top: 10px;
-      border: 1px solid #ffd6ea;
-    }
-
-    .card-title {
-      font-weight: 700;
-      color: #d81b60;
-      margin-bottom: 6px;
-    }
-
-    .btn-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 18px;
-    }
-    .btn-primary {
-      border: none;
-      padding: 10px 20px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #ff5b94, #ff80ab);
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 14px;
-      box-shadow: 0 6px 16px rgba(255, 64, 129, 0.35);
-      transition: transform 0.1s, box-shadow 0.1s;
-    }
-    .btn-primary:active {
-      transform: translateY(1px);
-      box-shadow: 0 3px 10px rgba(255,64,129,0.35);
-    }
-
-    /* Khung Thỏ */
-    .tho-panel {
-      border-radius: 18px;
-      background: #fff7fb;
-      border: 1px solid #ffd1e7;
-      padding: 16px;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .tho-top {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-    .tho-avatar-wrap {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #fff, #ffd3e4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.15);
-      overflow: hidden;
-    }
-    .tho-avatar {
-      width: 82%;
-      height: 82%;
-      object-fit: contain;
-      animation: bounce 2.2s infinite;
-    }
-    .giay-khen {
-      width: 220px;
-      margin-top: 8px;
-      border-radius: 16px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-    }
-    .hidden {
-      display: none;
-    }
-    .tho-name {
-      font-weight: 700;
-      color: #e91e63;
-      font-size: 16px;
-    }
-
-    .chat-box {
-      margin-top: 10px;
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 12px 14px;
-      font-size: 14px;
-      line-height: 1.5;
-      min-height: 120px;
-      max-height: 260px;
-      overflow-y: auto;
-      border: 1px solid #ffd6ea;
-    }
-    .msg {
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: flex-start;
-    }
-    .msg.me {
-      justify-content: flex-end;
-    }
-    .bubble {
-      padding: 8px 11px;
-      border-radius: 14px;
-      max-width: 92%;
-      background: #ffe6f1;
-    }
-    .msg.me .bubble {
-      background: #e3f2fd;
-    }
-
-    .hint-small {
-      margin-top: 6px;
-      font-size: 12px;
-      color: #888;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-
-    @media (max-width: 840px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="page">
-    <div class="header">
-      <div class="logo">
-        <!-- cô upload tho-nhan-ai.gif vào repo để hiện ở đây -->
-        <img src="tho-nhan-ai.gif" alt="Thỏ Nhân Ái" />
-      </div>
-      <div class="title-block">
-        <h1>Thỏ Nhân Ái</h1>
-        <p>Lắng nghe phiếu 3–1–1 và gửi lời khen cho con 🧡</p>
-        <span class="chip">3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương</span>
-      </div>
-    </div>
-
-    <div class="note">
-      🐰 <b>Thỏ đang ở đây để lắng nghe câu chuyện Nhân Ái của con.</b>
-      Con viết xong phiếu rồi bấm <b>“Gửi cho Thỏ”</b> nha!
-    </div>
-
-    <div class="layout">
-      <!-- BÊN TRÁI: FORM HỌC SINH -->
-      <div>
+  <div class="app">
+    <header class="app-header">
+      <div class="header-left">
+        <div class="avatar-circle">
+          <img id="thoAvatar" src="images/tho-nhan-ai.png" alt="Thỏ Nhân Ái" />
+        </div>
         <div>
-          <div class="field-label">Tên học sinh</div>
-          <input id="studentName" type="text" placeholder="Ví dụ: Nguyễn Thị Hân..." />
-        </div>
-
-        <div style="margin-top: 10px;">
-          <div class="field-label">Lớp</div>
-          <select id="lopSelect">
-            <option value="">-- Chọn lớp --</option>
-            <option>5/1</option>
-            <option>5/2</option>
-            <option>5/3</option>
-            <option>5/4</option>
-            <option>5/5</option>
-            <option>5/6</option>
-            <option>5/7</option>
-            <option>5/8</option>
-            <option>5/9</option>
-            <option>5/10</option>
-            <option>5/11</option>
-            <option>5/12</option>
-            <option>5/13</option>
-            <option>5/14</option>
-            <option>5/15</option>
-          </select>
-        </div>
-
-        <h3 style="margin-top: 18px; margin-bottom: 4px; color: #c2185b;">
-          Phiếu Nhân Ái tuần này
-        </h3>
-        <div class="field-hint">
-          Con hãy hoàn thành 3–1–1:
-          <b>3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương</b>.
-        </div>
-
-        <!-- 3 lời cảm ơn -->
-        <div class="card">
-          <div class="card-title">🌸 Ba lời cảm ơn</div>
-
-          <div class="field-label">Lời cảm ơn 1</div>
-          <textarea id="camon1" placeholder="Con cảm ơn..."></textarea>
-
-          <div class="field-label" style="margin-top: 8px;">Lời cảm ơn 2</div>
-          <textarea id="camon2" placeholder="Con cảm ơn..."></textarea>
-
-          <div class="field-label" style="margin-top: 8px;">Lời cảm ơn 3</div>
-          <textarea id="camon3" placeholder="Con cảm ơn..."></textarea>
-        </div>
-
-        <!-- 1 việc tốt -->
-        <div class="card">
-          <div class="card-title">🌱 Một việc tốt con đã làm</div>
-          <textarea id="viectot" placeholder="Con đã giúp... hoặc đã làm việc tốt gì..."></textarea>
-        </div>
-
-        <!-- 1 lời yêu thương -->
-        <div class="card">
-          <div class="card-title">💌 Một lời yêu thương</div>
-          <textarea id="yeuthuong" placeholder="Con muốn gửi lời yêu thương tới..."></textarea>
-        </div>
-
-        <div class="btn-row">
-          <button id="sendBtn" class="btn-primary">Gửi cho Thỏ 🐰</button>
-        </div>
-        <div class="hint-small">
-          Gợi ý từ khóa: cảm ơn, giúp đỡ, xin lỗi, thương, yêu, chia sẻ, an ủi,...
+          <h1>Thỏ Nhân Ái 🐰</h1>
+          <p class="subtitle">
+            Lắng nghe phiếu <strong>3–1–1</strong> và gửi lời khen, lời động viên cho con 💛
+          </p>
+          <p class="subtitle small">
+            3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương
+          </p>
         </div>
       </div>
+    </header>
 
-      <!-- BÊN PHẢI: THỎ NHÂN ÁI + GIẤY KHEN -->
-      <div class="tho-panel">
-        <div class="tho-top">
-          <div class="tho-avatar-wrap">
-            <img src="tho-nhan-ai.gif" alt="Thỏ Nhân Ái" class="tho-avatar" />
+    <main class="layout">
+      <!-- Khung nhập phiếu -->
+      <section class="panel form-panel">
+        <h2>Phiếu Nhân Ái tuần này</h2>
+        <p class="hint">
+          Con hãy viết đủ <strong>3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương</strong>, sau đó bấm
+          <strong>“Gửi cho Thỏ”</strong> nhé.
+        </p>
+
+        <form id="nhanAiForm">
+          <div class="field">
+            <label for="name">Tên học sinh</label>
+            <input type="text" id="name" placeholder="Ví dụ: Nguyễn Thị Hân" required />
           </div>
-          <div class="tho-name">Thỏ Nhân Ái đang lắng nghe...</div>
 
-          <!-- Giấy khen – lúc đầu ẩn -->
-          <!-- Cô upload file giay-khen.png vào repo để hình hiện -->
-          <img id="giayKhen" src="giay-khen.png" alt="Giấy khen Nhân Ái"
-               class="giay-khen hidden" />
-        </div>
+          <div class="field">
+            <label for="lop">Lớp</label>
+            <select id="lop" required>
+              <option value="">-- Chọn lớp --</option>
+              <option>5/1</option>
+              <option>5/2</option>
+              <option>5/3</option>
+              <option>5/4</option>
+              <option>5/5</option>
+              <option>5/6</option>
+              <option>5/7</option>
+              <option>5/8</option>
+              <option>5/9</option>
+              <option>5/10</option>
+              <option>5/11</option>
+              <option>5/12</option>
+              <option>5/13</option>
+              <option>5/14</option>
+              <option>5/15</option>
+            </select>
+          </div>
 
-        <div id="chatBox" class="chat-box">
-          <!-- Lời Thỏ sẽ hiện ở đây -->
+          <!-- 3 lời cảm ơn -->
+          <fieldset class="group">
+            <legend>Ba lời cảm ơn 🌸</legend>
+
+            <div class="field">
+              <label for="camon1">Lời cảm ơn 1</label>
+              <textarea id="camon1" rows="2"
+                placeholder="Ví dụ: Con cảm ơn bạn đã cho con mượn bút..."></textarea>
+            </div>
+
+            <div class="field">
+              <label for="camon2">Lời cảm ơn 2</label>
+              <textarea id="camon2" rows="2"
+                placeholder="Ví dụ: Con cảm ơn mẹ đã nấu bữa ăn ngon..."></textarea>
+            </div>
+
+            <div class="field">
+              <label for="camon3">Lời cảm ơn 3</label>
+              <textarea id="camon3" rows="2"
+                placeholder="Ví dụ: Con cảm ơn cô giáo đã giúp con hiểu bài..."></textarea>
+            </div>
+          </fieldset>
+
+          <!-- 1 việc tốt -->
+          <fieldset class="group">
+            <legend>Một việc tốt con đã làm ✅</legend>
+            <div class="field">
+              <label for="viectot">Việc tốt</label>
+              <textarea id="viectot" rows="2"
+                placeholder="Ví dụ: Con đã giúp bạn trực nhật, con nhường chỗ cho người lớn tuổi..."></textarea>
+            </div>
+          </fieldset>
+
+          <!-- 1 lời yêu thương -->
+          <fieldset class="group">
+            <legend>Một lời yêu thương 💌</legend>
+            <div class="field">
+              <label for="yeuthuong">Lời yêu thương</label>
+              <textarea id="yeuthuong" rows="2"
+                placeholder="Ví dụ: Con muốn gửi lời yêu thương đến bà, con nói: Con rất thương bà..."></textarea>
+            </div>
+          </fieldset>
+
+          <button type="submit" class="primary-btn">Gửi cho Thỏ</button>
+          <p id="status" class="status-text"></p>
+        </form>
+      </section>
+
+      <!-- Khung Thỏ trả lời -->
+      <section class="panel bot-panel">
+        <h2>Thỏ Nhân Ái đang lắng nghe… 👂</h2>
+        <div class="bubble-container">
+          <div class="bubble">
+            <p id="botText">
+              Chào con! Thỏ Nhân Ái đang ở đây để lắng nghe câu chuyện 3–1–1 của con.
+              Con viết xong phiếu rồi bấm “Gửi cho Thỏ” nha. 🐰💗
+            </p>
+          </div>
         </div>
-      </div>
-    </div>
+        <p class="note">
+          Thỏ sẽ đọc nội dung con viết, phân tích xem con đã hoàn thành đủ
+          <strong>3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương</strong>
+          chưa, rồi gửi lại cho con <strong>lời khen</strong> hoặc
+          <strong>lời động viên</strong>. Nếu con làm đủ, Thỏ tặng con
+          <strong>“Giấy khen Nhân Ái”</strong> đặc biệt trong bảng tổng hợp của cô giáo. ✨
+        </p>
+      </section>
+    </main>
   </div>
 
-  <script>
-    // ==== LINK APPS SCRIPT CỦA CÔ ====
-    const WEB_APP_URL =
-      "https://script.google.com/macros/s/AKfycbwPwGNKdT0r0LcmBZKuL3LBBhZPbQSej82JhPDOyhyj0n7DivVuOXVEthYd9tDd7yvfQg/exec";
-
-    const nameInput      = document.getElementById("studentName");
-    const lopSelect      = document.getElementById("lopSelect");
-    const camon1Input    = document.getElementById("camon1");
-    const camon2Input    = document.getElementById("camon2");
-    const camon3Input    = document.getElementById("camon3");
-    const viectotInput   = document.getElementById("viectot");
-    const yeuthuongInput = document.getElementById("yeuthuong");
-    const sendBtn        = document.getElementById("sendBtn");
-    const chatBox        = document.getElementById("chatBox");
-    const giaykhenEl     = document.getElementById("giayKhen");
-
-    function scrollToBottom() {
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function addMessage(html, from = "bot") {
-      const msg = document.createElement("div");
-      msg.className = "msg " + (from === "me" ? "me" : "bot");
-      const bubble = document.createElement("div");
-      bubble.className = "bubble";
-      bubble.innerHTML = html;
-      msg.appendChild(bubble);
-      chatBox.appendChild(msg);
-      scrollToBottom();
-    }
-
-    // Lời chào ban đầu
-    addMessage(
-      "Chào con 👋. Con hãy ghi tên, chọn lớp và hoàn thành 3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương. " +
-      "Viết xong bấm <b>“Gửi cho Thỏ”</b>, Thỏ sẽ đọc và nói với con nhé. 🌷"
-    );
-
-    sendBtn.addEventListener("click", () => {
-      const name      = nameInput.value.trim();
-      const lop       = lopSelect.value.trim();
-      const camon1    = camon1Input.value.trim();
-      const camon2    = camon2Input.value.trim();
-      const camon3    = camon3Input.value.trim();
-      const viectot   = viectotInput.value.trim();
-      const yeuthuong = yeuthuongInput.value.trim();
-
-      if (!name || !lop) {
-        alert("Con nhớ ghi TÊN và chọn LỚP trước nhé!");
-        return;
-      }
-
-      // Kiểm tra xem con đã điền được bao nhiêu mục trong 3-1-1
-      const fields = [camon1, camon2, camon3, viectot, yeuthuong];
-      const filledCount = fields.filter(t => t && t.trim() !== "").length;
-      const duBai = (filledCount === 5);   // đủ 3 cảm ơn, 1 việc tốt, 1 lời yêu thương
-
-      let replyText = "";
-
-      if (duBai) {
-        // Đã làm đủ ⇒ hiện giấy khen + lời khen
-        replyText =
-          `Thỏ cảm ơn <b>${name}</b> lớp <b>${lop}</b> vì con đã hoàn thành đủ ` +
-          `<b>3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương</b> tuần này rồi nha. 🌸 ` +
-          `Những người nhận lời cảm ơn và yêu thương của con chắc chắn sẽ rất hạnh phúc. ` +
-          `Thỏ tặng con một <b>GIẤY KHEN NHÂN ÁI</b> thật đặc biệt. Tiếp tục phát huy nhé! 💖`;
-
-        giaykhenEl.classList.remove("hidden");
-      } else {
-        // Chưa đủ ⇒ ẩn giấy khen + động viên
-        replyText =
-          `Thỏ cảm ơn <b>${name}</b> vì con đã bắt đầu viết phiếu Nhân Ái rồi nha. 🐰 ` +
-          `Tuần này con mới hoàn thành được <b>${filledCount}/5</b> mục. ` +
-          `Tuần sau con thử hoàn thành đủ 3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương, ` +
-          `Thỏ tin con sẽ làm được và sẽ nhận giấy khen Nhân Ái đặc biệt hơn nữa! 💪`;
-
-        giaykhenEl.classList.add("hidden");
-      }
-
-      addMessage(replyText, "bot");
-
-      // Thỏ đọc lời nhắn – giọng nữ tiếng Việt
-      const utter = new SpeechSynthesisUtterance(
-        replyText.replace(/<[^>]+>/g, "") // bỏ thẻ HTML khi đọc
-      );
-      utter.lang = "vi-VN";
-      utter.rate = 1;
-      utter.pitch = 1;
-      speechSynthesis.cancel();
-      speechSynthesis.speak(utter);
-
-      // Gửi dữ liệu lên Apps Script + đánh dấu X khi đủ bài
-      fetch(WEB_APP_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name,
-          lop,
-          camon1,
-          camon2,
-          camon3,
-          viectot,
-          yeuthuong,
-          giaykhen: duBai ? "x" : ""
-        })
-      }).catch(err => {
-        console.error("Lỗi gửi dữ liệu:", err);
-      });
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
