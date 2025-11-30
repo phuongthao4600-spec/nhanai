@@ -1,5 +1,5 @@
 // ====== THỎ NHÂN ÁI - SCRIPT.JS (FULL) ======
-// 40 câu khen + 40 câu động viên + giọng nói + âm thanh gửi & giấy khen
+// 40 câu khen + 40 câu động viên + giọng nói + nhạc nền + âm gửi + âm giấy khen
 
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwzecJDD4uNv1E3czQDWQYUZ8J4Gik7Vo_8RKe1dfRpLgYu3kbXAD0q5O6H6Vm2DRZ0Jg/exec";
@@ -48,7 +48,7 @@ const praiseMessages = [
   "Con xứng đáng nhận giấy khen nhân ái tuần này!"
 ];
 
-// 40 câu động viên (có __MISSING__ để ghép phần còn thiếu)
+// 40 câu động viên (chèn __MISSING__)
 const encourageMessagesTemplates = [
   "Con đã viết rất dễ thương rồi, chỉ là phiếu còn thiếu __MISSING__. Không sao đâu, tuần sau con làm đủ hơn nhé.",
   "Hôm nay con ghi được vài điều dễ thương, dù phiếu còn thiếu __MISSING__. Tuần sau Thỏ sẽ chờ phiếu đầy đủ nha.",
@@ -119,19 +119,24 @@ function speakAsBunny(text) {
   window.speechSynthesis.speak(utter);
 }
 
-let sendSound = null;
-let awardSound = null;
-
 document.addEventListener("DOMContentLoaded", function () {
   // Lấy audio từ thẻ <audio>
-  const sendAudioTag = document.getElementById("sendAudio");
-  const awardAudioTag = document.getElementById("awardAudio");
+  const bgAudio = document.getElementById("bgAudio");
+  const sendAudio = document.getElementById("sendAudio");
+  const awardAudio = document.getElementById("awardAudio");
 
-  sendSound = sendAudioTag ? sendAudioTag : new Audio("send.mp3");
-  awardSound = awardAudioTag ? awardAudioTag : new Audio("award.mp3");
+  // Nhạc nền: chỉ bắt đầu khi có thao tác đầu tiên
+  if (bgAudio) {
+    const startBg = () => {
+      bgAudio.volume = 0.3;
+      bgAudio.play().catch(() => {});
+      document.removeEventListener("click", startBg);
+    };
+    document.addEventListener("click", startBg, { once: true });
+  }
 
-  sendSound.volume = 0.4;
-  awardSound.volume = 0.6;
+  if (sendAudio) sendAudio.volume = 0.4;
+  if (awardAudio) awardAudio.volume = 0.6;
 
   const nameInput = document.getElementById("nameInput");
   const classSelect = document.getElementById("classSelect");
@@ -146,9 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const certificate = document.getElementById("certificate");
   const certName = document.getElementById("certName");
 
-  if (certificate) {
-    certificate.classList.add("hidden");
-  }
+  if (certificate) certificate.classList.add("hidden");
 
   sendBtn.addEventListener("click", function () {
     const name = nameInput.value.trim();
@@ -221,9 +224,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isFull311) {
         certName.textContent = name;
         certificate.classList.remove("hidden");
-        if (awardSound) {
-          awardSound.currentTime = 0;
-          awardSound.play().catch(() => {});
+        if (awardAudio) {
+          awardAudio.currentTime = 0;
+          awardAudio.play().catch(() => {});
         }
       } else {
         certificate.classList.add("hidden");
@@ -241,9 +244,9 @@ document.addEventListener("DOMContentLoaded", function () {
     formData.append("yeuthuong", yt);
     formData.append("hasCertificate", isFull311 ? "x" : "");
 
-    if (sendSound) {
-      sendSound.currentTime = 0;
-      sendSound.play().catch(() => {});
+    if (sendAudio) {
+      sendAudio.currentTime = 0;
+      sendAudio.play().catch(() => {});
     }
 
     fetch(SCRIPT_URL, {
