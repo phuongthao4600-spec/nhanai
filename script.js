@@ -1,11 +1,138 @@
-// ====== THỎ NHÂN ÁI - SCRIPT.JS (FULL VERSION) ======
+// ====== THỎ NHÂN ÁI - SCRIPT.JS (FULL) ======
+// 40 câu khen + 40 câu động viên + giọng nói + âm thanh gửi & giấy khen
 
-// 🔗 LINK APPS SCRIPT CỦA CÔ (ĐÃ GẮN SẴN)
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwzecJDD4uNv1E3czQDWQYUZ8J4Gik7Vo_8RKe1dfRpLgYu3kbXAD0q5O6H6Vm2DRZ0Jg/exec";
 
+// 40 câu khen
+const praiseMessages = [
+  "Con đã hoàn thành đủ 3 lời cảm ơn, một việc tốt và một lời yêu thương rồi. Thỏ và cô giáo rất tự hào về con.",
+  "Phiếu 3–1–1 của con rất trọn vẹn, Thỏ cảm nhận được trái tim nhân ái và biết ơn của con.",
+  "Con đã lan tỏa rất nhiều yêu thương qua phiếu 3–1–1 hôm nay, Thỏ vỗ tay khen con thật lớn.",
+  "Con ghi đủ 3 lời cảm ơn, một việc tốt và một lời yêu thương rất chân thành. Con thật tuyệt vời!",
+  "Nhìn phiếu 3–1–1 của con, Thỏ cảm nhận được con rất biết trân trọng và quan tâm tới mọi người.",
+  "Con đã dành thời gian suy nghĩ để viết những điều tốt đẹp. Tấm lòng của con thật ấm áp.",
+  "Phiếu 3–1–1 của con giống như một bó hoa đẹp, đầy ắp yêu thương và biết ơn.",
+  "Con hoàn thành nhiệm vụ nhân ái thật xuất sắc. Thỏ mong con giữ thói quen tốt này.",
+  "Lời cảm ơn và lời yêu thương của con rất lễ phép và chân thành. Con đáng khen lắm.",
+  "Những việc tốt con làm trong tuần khiến Thỏ cảm thấy rất tự hào.",
+  "Con biến suy nghĩ tốt đẹp thành hành động cụ thể, điều đó đáng quý lắm.",
+  "Phiếu con viết khiến Thỏ mỉm cười mãi vì con biết yêu thương người khác.",
+  "Con gieo được rất nhiều hạt giống nhân ái qua phiếu hôm nay.",
+  "Thỏ đọc phiếu của con mà thấy lòng mình ấm lên. Con rất biết yêu thương.",
+  "Con viết rất rõ ràng và đầy đủ. Phiếu của con là tấm gương tốt cho cả lớp.",
+  "Việc tốt con làm tuy nhỏ nhưng chứa đựng nhiều yêu thương.",
+  "Con không chỉ nghĩ cho mình mà còn nghĩ cho người khác nữa. Tuyệt vời lắm.",
+  "Lời cảm ơn của con đúng lúc, chân thành và dễ thương vô cùng.",
+  "Lời yêu thương con gửi khiến Thỏ thấy thật ấm áp.",
+  "Con biến một tuần bình thường thành một tuần đầy yêu thương.",
+  "Phiếu của con đẹp từ chữ viết đến tấm lòng.",
+  "Con ngày càng trưởng thành qua từng phiếu 3–1–1.",
+  "Phiếu 3–1–1 của con như nhật ký yêu thương nhỏ xíu nhưng ý nghĩa.",
+  "Con đã làm tròn trách nhiệm với bản thân và lớp học.",
+  "Thỏ rất vui vì con hoàn thành đầy đủ và nghiêm túc.",
+  "Con đang xây dựng thói quen biết ơn – đó là báu vật của con.",
+  "Những dòng con viết toát lên sự chân thành đáng quý.",
+  "Con đặt nhiều tình cảm vào từng phần trong phiếu.",
+  "Phiếu của con đặc biệt vì nó chứa rất nhiều yêu thương.",
+  "Việc tốt con làm mang lại niềm vui cho mọi người.",
+  "Lời cảm ơn con viết rất thật và rất đẹp.",
+  "Lời yêu thương con gửi khiến Thỏ xúc động luôn.",
+  "Con làm đủ 3–1–1 rất nghiêm túc – Thỏ khen con!",
+  "Phiếu con viết khiến nhiều bạn khác muốn học theo.",
+  "Con là một bạn nhỏ sống tình cảm và biết sẻ chia.",
+  "Con giữ được thói quen tốt – thật đáng tự hào.",
+  "Những điều con làm tuần này rất ý nghĩa.",
+  "Con cho Thỏ thấy con trưởng thành hơn nhiều.",
+  "Phiếu của con khiến Thỏ vui lắm, thật đó!",
+  "Con xứng đáng nhận giấy khen nhân ái tuần này!"
+];
+
+// 40 câu động viên (có __MISSING__ để ghép phần còn thiếu)
+const encourageMessagesTemplates = [
+  "Con đã viết rất dễ thương rồi, chỉ là phiếu còn thiếu __MISSING__. Không sao đâu, tuần sau con làm đủ hơn nhé.",
+  "Hôm nay con ghi được vài điều dễ thương, dù phiếu còn thiếu __MISSING__. Tuần sau Thỏ sẽ chờ phiếu đầy đủ nha.",
+  "Thỏ cảm ơn con đã chia sẻ, dù phiếu còn thiếu __MISSING__. Tuần sau mình làm tốt hơn nhé.",
+  "Phiếu có nhiều điều hay, chỉ là thiếu __MISSING__. Lần sau con nhớ bổ sung thêm nha.",
+  "Con đã làm được một phần rồi, phần thiếu là __MISSING__. Tuần sau mình cố gắng hơn.",
+  "Thỏ thấy con đang cố gắng thật sự, dù phiếu còn thiếu __MISSING__. Tuần sau con sẽ làm tốt hơn.",
+  "Con đã bắt đầu tốt rồi, chỉ là còn thiếu __MISSING__. Tuần sau mình viết thêm nhé.",
+  "Những gì con viết rất đáng yêu, nhưng phiếu còn thiếu __MISSING__. Lần sau con hoàn thành đủ nha.",
+  "Hôm nay con đã cố gắng rồi, chỉ là thiếu __MISSING__. Tuần sau mình làm trọn vẹn hơn.",
+  "Không sao khi phiếu còn thiếu __MISSING__. Tuần sau con cố gắng thêm một chút là được.",
+  "Phiếu hôm nay như bức tranh chưa tô xong vì thiếu __MISSING__. Tuần sau mình tô nốt nha.",
+  "Con đã viết một phần rất tốt, phần thiếu là __MISSING__. Tuần sau thêm vào nhé.",
+  "Phiếu còn thiếu __MISSING__, nhưng Thỏ biết con đang tiến bộ. Tuần sau cố hơn chút nữa nha.",
+  "Con ghi được nhiều điều hay rồi, chỉ thiếu __MISSING__. Tuần sau nhớ bổ sung nhé.",
+  "Chưa đầy đủ vì thiếu __MISSING__, nhưng con đã cố gắng rồi. Tuần sau mình làm tốt hơn.",
+  "Thỏ tin con có thể làm đủ, chỉ là hôm nay con thiếu __MISSING__. Tuần sau mình thử lại nha.",
+  "Con đang đi đúng hướng, nhưng còn thiếu __MISSING__. Tuần tới nhớ hoàn thành hết.",
+  "Con làm được nửa phiếu rồi, phần thiếu là __MISSING__. Tuần sau hoàn thiện thêm nha.",
+  "Phiếu chưa hoàn thiện vì thiếu __MISSING__. Tuần sau con viết đủ chắc chắn đẹp lắm.",
+  "Con đã rất cố gắng, chỉ thiếu __MISSING__. Tuần sau thêm phần này là tuyệt vời liền.",
+  "Không sao hết, con chỉ thiếu __MISSING__. Tuần sau mình viết đủ 3–1–1 nha.",
+  "Phiếu lần này thiếu __MISSING__, nhưng là bước khởi đầu tốt. Tuần sau Thỏ tin con làm được.",
+  "Con đã viết được nhiều điều tốt, nhưng phiếu thiếu __MISSING__. Lần sau cố gắng hơn nhé.",
+  "Chỉ còn thiếu __MISSING__ là phiếu của con trọn vẹn. Tuần sau mình cùng hoàn thành nhé.",
+  "Tuần này phiếu chưa đủ vì thiếu __MISSING__. Nhưng tuần sau chắc chắn con làm tốt hơn.",
+  "Phiếu giống bài hát thiếu vài nốt nhạc là __MISSING__. Tuần sau mình thêm vào nha.",
+  "Con làm được rồi, chỉ là thiếu __MISSING__. Tuần sau con bổ sung thêm nha.",
+  "Thỏ không buồn đâu khi con thiếu __MISSING__. Tuần sau mình làm lại, chắc chắn đẹp hơn.",
+  "Con đã ghi được một phần, phần thiếu là __MISSING__. Tuần sau mình làm đủ hơn.",
+  "Phiếu thiếu __MISSING__, nhưng Thỏ thấy con có tiến bộ. Tuần sau tiếp tục nha.",
+  "Không sao khi phiếu thiếu __MISSING__. Con đang học cách viết tốt hơn mà.",
+  "Con chỉ thiếu __MISSING__, còn lại con làm rất tốt. Tuần sau nhớ hoàn chỉnh hơn nghen.",
+  "Phiếu tuần này chưa trọn vẹn vì __MISSING__, nhưng tuần sau Thỏ tin con làm được.",
+  "Con đã bắt đầu tốt rồi, phần __MISSING__ tuần sau con bổ sung thêm.",
+  "Phiếu thiếu __MISSING__, nhưng con đang dần cải thiện. Tuần sau cố gắng hơn nha.",
+  "Tuần này con thiếu __MISSING__, tuần sau mình cùng làm cho đầy đủ nha.",
+  "Con còn thiếu __MISSING__, nhưng Thỏ tin con tuần sau sẽ làm tuyệt vời.",
+  "Phiếu còn thiếu __MISSING__, nhưng Thỏ thấy con có nhiều tiến bộ rồi.",
+  "Chỉ cần thêm __MISSING__ nữa thôi là con hoàn thành tốt rồi. Tuần sau thử lại nha.",
+  "Tuần này thiếu __MISSING__, nhưng tuần tới con làm trọn vẹn là được."
+];
+
+let usedPraiseIndexes = new Set();
+let usedEncourageIndexes = new Set();
+
+function pickUniqueMessage(messages, usedSet) {
+  if (usedSet.size === messages.length) {
+    usedSet.clear();
+  }
+  let index;
+  do {
+    index = Math.floor(Math.random() * messages.length);
+  } while (usedSet.has(index) && usedSet.size < messages.length);
+  usedSet.add(index);
+  return messages[index];
+}
+
+// Giọng nói của Thỏ
+function speakAsBunny(text) {
+  if (!("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = "vi-VN";
+  const voices = window.speechSynthesis.getVoices();
+  const viVoices = voices.filter(v => v.lang.startsWith("vi"));
+  if (viVoices.length > 0) utter.voice = viVoices[0];
+  window.speechSynthesis.speak(utter);
+}
+
+let sendSound = null;
+let awardSound = null;
+
 document.addEventListener("DOMContentLoaded", function () {
-  // Lấy các field từ HTML
+  // Lấy audio từ thẻ <audio>
+  const sendAudioTag = document.getElementById("sendAudio");
+  const awardAudioTag = document.getElementById("awardAudio");
+
+  sendSound = sendAudioTag ? sendAudioTag : new Audio("send.mp3");
+  awardSound = awardAudioTag ? awardAudioTag : new Audio("award.mp3");
+
+  sendSound.volume = 0.4;
+  awardSound.volume = 0.6;
+
   const nameInput = document.getElementById("nameInput");
   const classSelect = document.getElementById("classSelect");
   const camon1 = document.getElementById("camon1");
@@ -19,12 +146,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const certificate = document.getElementById("certificate");
   const certName = document.getElementById("certName");
 
-  // Ẩn giấy khen lúc đầu
   if (certificate) {
     certificate.classList.add("hidden");
   }
 
-  // Khi bấm Gửi cho Thỏ
   sendBtn.addEventListener("click", function () {
     const name = nameInput.value.trim();
     const lop = classSelect.value.trim();
@@ -34,70 +159,79 @@ document.addEventListener("DOMContentLoaded", function () {
     const vt = viectot.value.trim();
     const yt = yeuthuong.value.trim();
 
-    // Kiểm tra tên
     if (!name) {
       alert("Con hãy ghi tên của mình nhé.");
       return;
     }
-
-    // Kiểm tra lớp
     if (!lop) {
       alert("Con hãy chọn lớp của mình nhé.");
       return;
     }
 
-    // Kiểm tra có đủ 3–1–1 chưa
     let missing = [];
-    if (!c1) missing.push("Lời cảm ơn 1");
-    if (!c2) missing.push("Lời cảm ơn 2");
-    if (!c3) missing.push("Lời cảm ơn 3");
-    if (!vt) missing.push("Một việc tốt");
-    if (!yt) missing.push("Một lời yêu thương");
+    if (!c1) missing.push("lời cảm ơn 1");
+    if (!c2) missing.push("lời cảm ơn 2");
+    if (!c3) missing.push("lời cảm ơn 3");
+    if (!vt) missing.push("một việc tốt");
+    if (!yt) missing.push("một lời yêu thương");
 
-    let isFull311 = missing.length === 0;
+    const isFull311 = missing.length === 0;
 
-    // ========== Thỏ trả lời ở khung bên phải ==========
+    // Thỏ trả lời
     chatBox.innerHTML = "";
-
-    let hello = document.createElement("p");
+    const hello = document.createElement("p");
     hello.textContent = `Thỏ Nhân Ái chào bạn ${name} (lớp ${lop}) 🐰`;
     chatBox.appendChild(hello);
 
-    if (isFull311) {
-      let msg = document.createElement("p");
-      msg.textContent =
-        "Con đã hoàn thành đủ 3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương rồi! Thỏ và cô giáo rất tự hào về con. 🌸";
-      chatBox.appendChild(msg);
-    } else {
-      let msg = document.createElement("p");
-      msg.textContent =
-        "Con đã viết rất tốt rồi, nhưng phiếu 3–1–1 của con còn thiếu:";
-      chatBox.appendChild(msg);
+    let speakText = `Thỏ Nhân Ái chào bạn ${name} lớp ${lop}. `;
 
-      let ul = document.createElement("ul");
-      missing.forEach((m) => {
-        let li = document.createElement("li");
+    if (isFull311) {
+      const praise = pickUniqueMessage(praiseMessages, usedPraiseIndexes);
+      const p = document.createElement("p");
+      p.textContent = praise + " 🌸";
+      chatBox.appendChild(p);
+      speakText += praise;
+    } else {
+      const intro = document.createElement("p");
+      intro.textContent = "Con đã viết rất tốt rồi, nhưng phiếu của con vẫn còn thiếu:";
+      chatBox.appendChild(intro);
+
+      const ul = document.createElement("ul");
+      missing.forEach(m => {
+        const li = document.createElement("li");
         li.textContent = m;
         ul.appendChild(li);
       });
       chatBox.appendChild(ul);
 
-      let note = document.createElement("p");
-      note.textContent =
-        "Con hãy bổ sung cho đủ rồi bấm “Gửi cho Thỏ” lại một lần nữa nhé. 💗";
-      chatBox.appendChild(note);
+      let template = pickUniqueMessage(
+        encourageMessagesTemplates,
+        usedEncourageIndexes
+      );
+      const msg = template.replace("__MISSING__", missing.join(", "));
+      const p = document.createElement("p");
+      p.textContent = msg + " 💗";
+      chatBox.appendChild(p);
+
+      speakText += msg;
     }
 
-    // ========== Hiện/ẩn giấy khen ==========
-    if (isFull311) {
-      certName.textContent = name;
-      certificate.classList.remove("hidden");
-    } else {
-      certificate.classList.add("hidden");
+    // Giấy khen
+    if (certificate) {
+      if (isFull311) {
+        certName.textContent = name;
+        certificate.classList.remove("hidden");
+        if (awardSound) {
+          awardSound.currentTime = 0;
+          awardSound.play().catch(() => {});
+        }
+      } else {
+        certificate.classList.add("hidden");
+      }
     }
 
-    // ========== Chuẩn bị dữ liệu gửi lên Google Sheet ==========
-    let formData = new FormData();
+    // Gửi dữ liệu lên Sheet
+    const formData = new FormData();
     formData.append("name", name);
     formData.append("lop", lop);
     formData.append("camon1", c1);
@@ -107,29 +241,18 @@ document.addEventListener("DOMContentLoaded", function () {
     formData.append("yeuthuong", yt);
     formData.append("hasCertificate", isFull311 ? "x" : "");
 
-    // Disable nút tạm thời
-    sendBtn.disabled = true;
-    let oldText = sendBtn.textContent;
-    sendBtn.textContent = "Thỏ đang nhận phiếu...";
+    if (sendSound) {
+      sendSound.currentTime = 0;
+      sendSound.play().catch(() => {});
+    }
 
-    // ========== Gửi lên Apps Script ==========
     fetch(SCRIPT_URL, {
       method: "POST",
       body: formData,
       mode: "no-cors"
-    })
-      .then(() => {
-        alert("Thỏ đã nhận được phiếu 3–1–1 của con rồi! 🧡");
-      })
-      .catch((err) => {
-        console.error("Lỗi:", err);
-        alert(
-          "Có lỗi khi gửi phiếu. Con báo cô giáo để cô kiểm tra giúp nhé."
-        );
-      })
-      .finally(() => {
-        sendBtn.disabled = false;
-        sendBtn.textContent = oldText;
-      });
+    }).catch(() => {});
+
+    // Thỏ nói
+    speakAsBunny(speakText);
   });
 });
