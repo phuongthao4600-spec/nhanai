@@ -1,133 +1,132 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <title>Thỏ Nhân Ái – Phiếu 3–1–1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="app">
-    <header class="app-header">
-      <div class="header-left">
-        <div class="avatar-circle">
-          <img id="thoAvatar" src="images/tho-nhan-ai.png" alt="Thỏ Nhân Ái" />
-        </div>
-        <div>
-          <h1>Thỏ Nhân Ái 🐰</h1>
-          <p class="subtitle">
-            Lắng nghe phiếu <strong>3–1–1</strong> và gửi lời khen, lời động viên cho con 💛
-          </p>
-          <p class="subtitle small">
-            3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương
-          </p>
-        </div>
+    <header class="header">
+      <div class="logo">
+        <div class="bunny-face"></div>
+      </div>
+      <div class="title-wrap">
+        <h1>Thỏ Nhân Ái</h1>
+        <p>Lắng nghe phiếu 3–1–1 và gửi lời khen cho con 🧡</p>
+        <span class="badge">3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương</span>
       </div>
     </header>
 
-    <main class="layout">
-      <!-- Khung nhập phiếu -->
-      <section class="panel form-panel">
+    <section class="intro-card">
+      <p class="intro-title">Thỏ Nhân Ái đang lắng nghe… 👂</p>
+      <p>
+        Chào con! Thỏ Nhân Ái đang ở đây để lắng nghe câu chuyện 3–1–1 của con.
+        Con viết xong phiếu rồi bấm <strong>“Gửi cho Thỏ”</strong> nha. 🐰💗
+      </p>
+      <p>
+        Thỏ sẽ đọc nội dung con viết, phân tích xem con đã hoàn thành đủ
+        <strong>3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương</strong>
+        chưa, rồi gửi lại cho con <strong>lời khen</strong> hoặc
+        <strong>lời động viên</strong>. Nếu con làm đủ, Thỏ tặng con
+        <strong>“Giấy khen Nhân Ái”</strong> đặc biệt trong bảng tổng hợp của cô giáo. ✨
+      </p>
+    </section>
+
+    <main class="main">
+      <section class="form-card">
         <h2>Phiếu Nhân Ái tuần này</h2>
-        <p class="hint">
-          Con hãy viết đủ <strong>3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương</strong>, sau đó bấm
-          <strong>“Gửi cho Thỏ”</strong> nhé.
+
+        <label class="field">
+          <span>Tên học sinh</span>
+          <input id="nameInput" type="text" placeholder="Ví dụ: Trần Nguyên Khôi…" />
+        </label>
+
+        <label class="field">
+          <span>Lớp</span>
+          <select id="classSelect">
+            <option value="">-- Chọn lớp --</option>
+            <option>5/1</option><option>5/2</option><option>5/3</option>
+            <option>5/4</option><option>5/5</option><option>5/6</option>
+            <option>5/7</option><option>5/8</option><option>5/9</option>
+            <option>5/10</option><option>5/11</option><option>5/12</option>
+            <option>5/13</option><option>5/14</option><option>5/15</option>
+          </select>
+        </label>
+
+        <p class="note">
+          Con hãy hoàn thành 3–1–1: <strong>3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương.</strong>
         </p>
 
-        <form id="nhanAiForm">
-          <div class="field">
-            <label for="name">Tên học sinh</label>
-            <input type="text" id="name" placeholder="Ví dụ: Nguyễn Thị Hân" required />
-          </div>
+        <div class="group">
+          <h3>🌸 Ba lời cảm ơn</h3>
 
-          <div class="field">
-            <label for="lop">Lớp</label>
-            <select id="lop" required>
-              <option value="">-- Chọn lớp --</option>
-              <option>5/1</option>
-              <option>5/2</option>
-              <option>5/3</option>
-              <option>5/4</option>
-              <option>5/5</option>
-              <option>5/6</option>
-              <option>5/7</option>
-              <option>5/8</option>
-              <option>5/9</option>
-              <option>5/10</option>
-              <option>5/11</option>
-              <option>5/12</option>
-              <option>5/13</option>
-              <option>5/14</option>
-              <option>5/15</option>
-            </select>
-          </div>
+          <label class="field">
+            <span>Lời cảm ơn 1</span>
+            <textarea id="camon1" rows="2"
+              placeholder="Ví dụ: Con cảm ơn mẹ vì…"></textarea>
+          </label>
 
-          <!-- 3 lời cảm ơn -->
-          <fieldset class="group">
-            <legend>Ba lời cảm ơn 🌸</legend>
+          <label class="field">
+            <span>Lời cảm ơn 2</span>
+            <textarea id="camon2" rows="2"
+              placeholder="Ví dụ: Con cảm ơn bạn vì…"></textarea>
+          </label>
 
-            <div class="field">
-              <label for="camon1">Lời cảm ơn 1</label>
-              <textarea id="camon1" rows="2"
-                placeholder="Ví dụ: Con cảm ơn bạn đã cho con mượn bút..."></textarea>
-            </div>
+          <label class="field">
+            <span>Lời cảm ơn 3</span>
+            <textarea id="camon3" rows="2"
+              placeholder="Ví dụ: Con cảm ơn thầy/cô vì…"></textarea>
+          </label>
+        </div>
 
-            <div class="field">
-              <label for="camon2">Lời cảm ơn 2</label>
-              <textarea id="camon2" rows="2"
-                placeholder="Ví dụ: Con cảm ơn mẹ đã nấu bữa ăn ngon..."></textarea>
-            </div>
+        <div class="group">
+          <h3>💛 Một việc tốt</h3>
+          <label class="field">
+            <span>Con đã làm việc tốt gì?</span>
+            <textarea id="viectot" rows="2"
+              placeholder="Ví dụ: Con đã giúp bạn…, con đã nhường ghế cho…"></textarea>
+          </label>
+        </div>
 
-            <div class="field">
-              <label for="camon3">Lời cảm ơn 3</label>
-              <textarea id="camon3" rows="2"
-                placeholder="Ví dụ: Con cảm ơn cô giáo đã giúp con hiểu bài..."></textarea>
-            </div>
-          </fieldset>
+        <div class="group">
+          <h3>💗 Một lời yêu thương</h3>
+          <label class="field">
+            <span>Con muốn gửi lời yêu thương tới…</span>
+            <textarea id="yeuthuong" rows="2"
+              placeholder="Ví dụ: Con muốn nói với mẹ rằng con rất yêu mẹ…"></textarea>
+          </label>
+        </div>
 
-          <!-- 1 việc tốt -->
-          <fieldset class="group">
-            <legend>Một việc tốt con đã làm ✅</legend>
-            <div class="field">
-              <label for="viectot">Việc tốt</label>
-              <textarea id="viectot" rows="2"
-                placeholder="Ví dụ: Con đã giúp bạn trực nhật, con nhường chỗ cho người lớn tuổi..."></textarea>
-            </div>
-          </fieldset>
+        <div class="actions">
+          <button id="sendBtn" class="btn primary">Gửi cho Thỏ 🐰</button>
+        </div>
 
-          <!-- 1 lời yêu thương -->
-          <fieldset class="group">
-            <legend>Một lời yêu thương 💌</legend>
-            <div class="field">
-              <label for="yeuthuong">Lời yêu thương</label>
-              <textarea id="yeuthuong" rows="2"
-                placeholder="Ví dụ: Con muốn gửi lời yêu thương đến bà, con nói: Con rất thương bà..."></textarea>
-            </div>
-          </fieldset>
-
-          <button type="submit" class="primary-btn">Gửi cho Thỏ</button>
-          <p id="status" class="status-text"></p>
-        </form>
+        <p class="hint">
+          Gợi ý từ khóa: cảm ơn, giúp đỡ, xin lỗi, chia sẻ, thương, yêu, an ủi…
+        </p>
       </section>
 
-      <!-- Khung Thỏ trả lời -->
-      <section class="panel bot-panel">
-        <h2>Thỏ Nhân Ái đang lắng nghe… 👂</h2>
-        <div class="bubble-container">
-          <div class="bubble">
-            <p id="botText">
-              Chào con! Thỏ Nhân Ái đang ở đây để lắng nghe câu chuyện 3–1–1 của con.
-              Con viết xong phiếu rồi bấm “Gửi cho Thỏ” nha. 🐰💗
+      <section class="chat-card">
+        <h2>Thỏ Nhân Ái trả lời con</h2>
+        <div id="chatBox" class="chat-box"></div>
+
+        <!-- Giấy khen Nhân Ái -->
+        <div id="certificate" class="certificate hidden">
+          <div class="certificate-inner">
+            <p class="cert-title">GIẤY KHEN NHÂN ÁI</p>
+            <p class="cert-sub">Tặng bạn nhỏ</p>
+            <p id="certName" class="cert-name">Tên học sinh</p>
+            <p class="cert-text">
+              Vì đã hoàn thành đủ <strong>3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương</strong>
+              và lan tỏa rất nhiều yêu thương trong tuần này. 🌸
+            </p>
+            <p class="cert-footer">
+              Cô giáo và Thỏ Nhân Ái rất tự hào về con! 🐰💖
             </p>
           </div>
         </div>
-        <p class="note">
-          Thỏ sẽ đọc nội dung con viết, phân tích xem con đã hoàn thành đủ
-          <strong>3 lời cảm ơn – 1 việc tốt – 1 lời yêu thương</strong>
-          chưa, rồi gửi lại cho con <strong>lời khen</strong> hoặc
-          <strong>lời động viên</strong>. Nếu con làm đủ, Thỏ tặng con
-          <strong>“Giấy khen Nhân Ái”</strong> đặc biệt trong bảng tổng hợp của cô giáo. ✨
-        </p>
       </section>
     </main>
   </div>
