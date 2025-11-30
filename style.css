@@ -1,4 +1,3 @@
-/* Reset nhẹ nhàng */
 *,
 *::before,
 *::after {
@@ -8,238 +7,310 @@
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, #ffeef5 0, #ffe7f0 40%, #ffeef8 100%);
-  color: #3d2b40;
+  background: #ffeef5;
+  color: #402b3a;
 }
 
-/* Khung app chính */
 .app {
-  max-width: 1080px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 24px 16px 40px;
 }
 
-/* Header */
-.app-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 24px;
-}
+/* HEADER */
 
-.header-left {
+.header {
   display: flex;
   align-items: center;
   gap: 16px;
+  margin-bottom: 20px;
 }
 
-.avatar-circle {
-  width: 96px;
-  height: 96px;
+.logo {
+  width: 70px;
+  height: 70px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #ffd3e6, #ffe9f3);
-  box-shadow: 0 8px 20px rgba(255, 136, 187, 0.35);
+  background: #ffe0ec;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  box-shadow: 0 4px 12px rgba(255, 145, 188, 0.4);
 }
 
-#thoAvatar {
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-  animation: float 3s ease-in-out infinite;
+.bunny-face {
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #fff8fb, #ffc4d7);
+  position: relative;
 }
 
-/* Thỏ đang nói */
-#thoAvatar.talking {
-  animation: talking 0.2s ease-in-out infinite alternate;
+/* tai thỏ nhỏ nhỏ dễ thương */
+.bunny-face::before,
+.bunny-face::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 32px;
+  border-radius: 999px;
+  background: #ffc4d7;
+  top: -20px;
 }
 
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-  100% { transform: translateY(0); }
+.bunny-face::before {
+  left: 4px;
 }
 
-@keyframes talking {
-  0% { transform: translateY(-3px) scale(1); }
-  100% { transform: translateY(-6px) scale(1.04); }
+.bunny-face::after {
+  right: 4px;
 }
 
-h1 {
-  margin: 0 0 4px;
-  font-size: 1.6rem;
-}
-
-.subtitle {
+.title-wrap h1 {
   margin: 0;
-  font-size: 0.95rem;
-  color: #7a4e6a;
+  font-size: 28px;
+  color: #c2185b;
 }
 
-.subtitle.small {
-  font-size: 0.85rem;
+.title-wrap p {
+  margin: 4px 0 6px;
+  font-size: 15px;
 }
 
-/* Layout 2 cột */
-.layout {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 2fr);
-  gap: 20px;
-}
-
-.panel {
-  background: #fffafc;
-  border-radius: 20px;
-  padding: 18px 20px 22px;
-  box-shadow: 0 10px 30px rgba(255, 179, 214, 0.35);
-}
-
-.panel h2 {
-  margin-top: 0;
-  font-size: 1.2rem;
-  margin-bottom: 6px;
-}
-
-.hint {
-  margin: 0 0 16px;
-  font-size: 0.9rem;
-  color: #7a4e6a;
-}
-
-/* Form */
-.field {
-  margin-bottom: 14px;
-}
-
-label {
-  display: block;
-  font-size: 0.9rem;
-  margin-bottom: 4px;
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #ffe0ec;
+  color: #c2185b;
+  font-size: 13px;
   font-weight: 600;
 }
 
-input[type="text"],
+/* INTRO CARD */
+
+.intro-card {
+  background: #fff6fb;
+  border-radius: 18px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  border: 1px dashed #ff9ec0;
+}
+
+.intro-title {
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+
+/* LAYOUT MAIN */
+
+.main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.9fr);
+  gap: 18px;
+}
+
+@media (max-width: 900px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* FORM CARD */
+
+.form-card,
+.chat-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px 18px 22px;
+  box-shadow: 0 6px 18px rgba(213, 131, 166, 0.15);
+}
+
+.form-card h2,
+.chat-card h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #c2185b;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.field span {
+  font-weight: 600;
+}
+
+input,
 select,
 textarea {
-  width: 100%;
+  font: inherit;
   border-radius: 12px;
-  border: 1px solid #f2c2da;
+  border: 1px solid #f3b1cc;
   padding: 8px 10px;
-  font-size: 0.95rem;
-  font-family: inherit;
-  resize: vertical;
   outline: none;
-  background: #fffdfd;
+  background: #fff9fd;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: #f48ab4;
-  box-shadow: 0 0 0 2px rgba(244, 138, 180, 0.25);
+  border-color: #ff7daf;
+  box-shadow: 0 0 0 2px rgba(255, 141, 186, 0.35);
 }
 
-.group {
-  border: 1px dashed #f5b9d6;
-  border-radius: 16px;
-  padding: 10px 12px 4px;
-  margin-bottom: 14px;
-}
-
-.group legend {
-  padding: 0 6px;
-  font-size: 0.9rem;
-  color: #b0487b;
-  font-weight: 600;
-}
-
-/* Nút gửi */
-.primary-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 9px 18px;
-  border-radius: 999px;
-  border: none;
-  background: linear-gradient(135deg, #ff82b3, #ff9ccd);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 0.95rem;
-  margin-top: 4px;
-  box-shadow: 0 8px 20px rgba(255, 136, 187, 0.5);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
-}
-
-.primary-btn:hover {
-  filter: brightness(1.05);
-  transform: translateY(-1px);
-  box-shadow: 0 10px 26px rgba(255, 136, 187, 0.6);
-}
-
-.primary-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 4px 10px rgba(255, 136, 187, 0.4);
-}
-
-.status-text {
-  font-size: 0.85rem;
-  margin-top: 8px;
-  color: #7a4e6a;
-}
-
-/* Thỏ trả lời */
-.bubble-container {
-  display: flex;
-  justify-content: center;
-  margin: 12px 0 8px;
-}
-
-.bubble {
-  position: relative;
-  background: #fff2fa;
-  border-radius: 16px;
-  padding: 14px 16px;
-  border: 1px solid #ffd5ea;
-  max-width: 100%;
-}
-
-.bubble::after {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  left: 24px;
-  border-width: 10px 10px 0 0;
-  border-style: solid;
-  border-color: #ffd5ea transparent transparent transparent;
-}
-
-#botText {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
+textarea {
+  resize: vertical;
 }
 
 .note {
-  font-size: 0.9rem;
-  color: #7a4e6a;
-  margin-top: 8px;
+  margin-top: 0;
+  font-size: 14px;
+  color: #7b4c63;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
+.group h3 {
+  margin-bottom: 6px;
+  margin-top: 14px;
+  font-size: 16px;
+  color: #b51658;
+}
 
-  .app-header {
-    margin-bottom: 18px;
-  }
+.actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+}
 
-  .avatar-circle {
-    width: 80px;
-    height: 80px;
-  }
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #ff7bb2, #ff4081);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(255, 90, 150, 0.45);
+}
+
+.btn.primary:hover {
+  filter: brightness(1.05);
+}
+
+.hint {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #7b4c63;
+}
+
+/* CHAT */
+
+.chat-box {
+  min-height: 160px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.msg {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.msg.me {
+  justify-content: flex-end;
+}
+
+.msg .bubble {
+  max-width: 100%;
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.msg.me .bubble {
+  background: #ffdde9;
+  border-bottom-right-radius: 4px;
+}
+
+.msg.bot .bubble {
+  background: #fff6fb;
+  border-bottom-left-radius: 4px;
+}
+
+/* CERTIFICATE */
+
+.certificate {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.certificate.hidden {
+  display: none;
+}
+
+.certificate-inner {
+  border-radius: 18px;
+  background: radial-gradient(circle at top, #fff9fe, #ffe0f0);
+  border: 2px solid #ff9cc3;
+  padding: 18px 18px 16px;
+  box-shadow: 0 6px 18px rgba(212, 108, 151, 0.3);
+  position: relative;
+}
+
+.certificate-inner::before,
+.certificate-inner::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 14px;
+  border: 1px dashed #ffb0ce;
+  pointer-events: none;
+}
+
+.certificate-inner::after {
+  inset: 11px;
+  border-style: dotted;
+  opacity: 0.5;
+}
+
+.cert-title {
+  margin: 4px 0 4px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  color: #c2185b;
+}
+
+.cert-sub {
+  margin: 0;
+  font-size: 13px;
+  color: #7b4c63;
+}
+
+.cert-name {
+  margin: 6px 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #a4114a;
+}
+
+.cert-text {
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+
+.cert-footer {
+  margin: 0;
+  font-size: 13px;
+  color: #7b4c63;
 }
