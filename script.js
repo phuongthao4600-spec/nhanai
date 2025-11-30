@@ -7,7 +7,7 @@ const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwzecJDD4uNv1E3czQDWQYUZ8J4Gik7Vo_8RKe1dfRpLgYu3kbXAD0q5O6H6Vm2DRZ0Jg/exec";
 
 // =======================
-// 1. DANH SÁCH LỜI KHEN
+// 1. DANH SÁCH LỜI Khen
 // =======================
 
 const praiseMessages = [
@@ -144,11 +144,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Âm thanh
   const bgSound = new Audio("bg.mp3");
   bgSound.loop = true;
-  bgSound.volume = 0.08; // nhạc nền nhỏ
+  bgSound.volume = 0.15; // nhạc nền to hơn một chút
   let bgStarted = false;
-
-  const sendSound = new Audio("send.mp3.mp3");
-  sendSound.volume = 1.0;
 
   const awardSound = new Audio("award.mp3.wav");
   awardSound.volume = 1.0;
@@ -207,9 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const isFull311 = missing.length === 0;
 
-    // Âm thanh gửi
-    sendSound.currentTime = 0;
-    sendSound.play().catch(() => {});
+    // Không còn âm thanh "gửi" nữa theo yêu cầu cô
 
     // Hiển thị chat
     chatBox.innerHTML = "";
